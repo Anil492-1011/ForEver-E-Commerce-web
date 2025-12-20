@@ -16,7 +16,7 @@ const BestSeller = () => {
       </h2>
 
       <p className='text-center w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600 my-8'>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        Explore our most loved products, trusted and chosen by customers for their superior quality and timeless appeal.
       </p>
 
       <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
