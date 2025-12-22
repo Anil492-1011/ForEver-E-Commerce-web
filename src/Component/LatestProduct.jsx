@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { AppContext } from '../context/AppContext';
+import { AppContext } from '../Context/AppContext';
 import ProductItem from './ProductItem';
 
 const LatestProduct = () => {
@@ -18,7 +18,7 @@ Each piece is carefully selected to match the latest trends while ensuring comfo
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y'>
             {
                 latestProduct.map((product, index)=>(
-                    <ProductItem key={index} product={product}/>
+                    <ProductItem key={index} id={product._id} product={product}/>
                 ))
             }
         </div>

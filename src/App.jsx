@@ -9,17 +9,19 @@ import Navbar from './Component/Navbar'
 import Login from './Page/Login'
 import PlaceOrder from './Page/PlaceOrder'
 import Order from './Page/Order'
+import SearchBar from './Component/SearchBar'
 
 function App() {
   return (
     <div>
    <Navbar/>
+   <SearchBar/>
        <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/collection' element={<Collection />} />
-        <Route path='/Product' element={<Product />} />
+        <Route path='/Product/:ProductId' element={<Product />} />
         <Route path='/login' element={<Login />} />
         <Route path='/Place-order' element={<PlaceOrder />} />
         <Route path='/Order' element={<Order />} />

@@ -5,7 +5,7 @@ const AboutUs = () => {
   return (
     <section className="max-w-7xl mx-auto px-6 pt-12">
       
-      {/* Heading */}
+       
       <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2">
           <p className="text-2xl text-gray-500">
@@ -15,17 +15,17 @@ const AboutUs = () => {
         </div>
       </div>
 
-      {/* Content */}
+       
       <div className="flex flex-col md:flex-row items-center gap-12">
         
-        {/* Image */}
+       
         <img
           src={assets.about_img}
           alt="About us"
           className="w-full md:max-w-[420px] rounded-lg shadow-sm"
         />
 
-        {/* Text */}
+    
         <div className="flex flex-col gap-5 md:w-1/2 text-gray-600 text-sm leading-relaxed">
           <p>
             Forever was born out of a passion for innovation and a desire to
