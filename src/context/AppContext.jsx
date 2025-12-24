@@ -8,6 +8,7 @@ export const AppContextProvider = ({ children }) => {
   const delivery_Fee = 50;
   const [search, setSearch] = useState('');
   const [showSearchBar , setShowSearchBar] = useState(false);
+  const [cartItem, setCartItem] =useState();
 
 
   console.log("Products in Context:", products);
@@ -19,7 +20,9 @@ export const AppContextProvider = ({ children }) => {
     search,
     setSearch,
     showSearchBar,
-    setShowSearchBar
+    setShowSearchBar,
+    setCartItem,
+    cartItem,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
