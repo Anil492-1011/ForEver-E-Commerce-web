@@ -4,9 +4,11 @@ import { assets } from "../assets/frontend_assets/assets";
 import { useState } from "react";
 import { AppContext } from "../Context/AppContext";
 
+
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const {setShowSearchBar}=useContext(AppContext)
+  const {setShowSearchBar, getCartCount }=useContext(AppContext)
+
 
   return (
     <div className="flex items-center justify-between py-6 px-10 shadow-md font-medium">
@@ -43,7 +45,7 @@ const Navbar = () => {
           <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-10">
             <div className="flex flex-col gap-2 w-36 py-3 px-4 bg-slate-100 text-gray-500 rounded">
               <p className="cursor-pointer hover:text-black">My Profile</p>
-              <p className="cursor-pointer hover:text-black">Order</p>
+           <Link to="/Order"><p  className="cursor-pointer hover:text-black">Order</p></Link> 
               <p className="cursor-pointer hover:text-black">Logout</p>
             </div>
           </div>
@@ -51,10 +53,10 @@ const Navbar = () => {
         <Link to="/Cart" className="relative">
           <img src={assets.cart_icon} alt="Cart" className="w-5 min-w-4" />
           <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
-            10
+            {getCartCount()}
           </p>
         </Link>
-
+      
         <img
           src={assets.menu_icon}
           alt="Menu"

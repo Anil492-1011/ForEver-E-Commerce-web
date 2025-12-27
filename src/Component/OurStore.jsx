@@ -18,7 +18,7 @@ const OurStore = () => {
       {/* Content */}
       <div className="flex flex-col md:flex-row items-center gap-12">
         
-        {/* Image */}
+        {/*  Image*/}
         <img
           src={assets.contact_img}
           alt="Contact us"

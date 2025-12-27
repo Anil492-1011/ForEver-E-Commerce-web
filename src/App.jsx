@@ -10,12 +10,15 @@ import Login from './Page/Login'
 import PlaceOrder from './Page/PlaceOrder'
 import Order from './Page/Order'
 import SearchBar from './Component/SearchBar'
+import Cart from './Page/Cart'
+
 
 function App() {
   return (
     <div>
-   <Navbar/>
-   <SearchBar/>
+   
+      <Navbar/>
+      <SearchBar/>
        <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
@@ -23,9 +26,11 @@ function App() {
         <Route path='/collection' element={<Collection />} />
         <Route path='/Product/:ProductId' element={<Product />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/Place-order' element={<PlaceOrder />} />
-        <Route path='/Order' element={<Order />} />
+        <Route path='/Place-order' element={<PlaceOrder />} />  
+        <Route path='/Order' element={<Order />}/>
+        <Route path='/Cart' element={<Cart/>}></Route>
        </Routes>
+
     </div>
      
   )

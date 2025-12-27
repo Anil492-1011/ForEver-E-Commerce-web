@@ -14,3 +14,11 @@ a.active hr{
   font-weight: 400;
   font-style: normal;
 }
+
+@layer components {
+  .input {
+    @apply w-full border border-gray-400 rounded-md px-4 py-2 text-sm
+    focus:outline-none focus:ring-2 focus:ring-gray-800
+    transition duration-200;
+  }
+}

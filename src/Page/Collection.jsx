@@ -13,8 +13,6 @@ const Collection = () => {
   const [showCategory, setShowCategory] = useState(false);
   const [showType, setShowType] = useState(false);
 
- 
-
   // Category
   const [men, setMen] = useState(false);
   const [women, setWomen] = useState(false);
@@ -24,7 +22,6 @@ const Collection = () => {
   const [topwear, setTopwear] = useState(false);
   const [bottomwear, setBottomwear] = useState(false);
   const [winterwear, setWinterwear] = useState(false);
-
 
 
   function handlefilter(){

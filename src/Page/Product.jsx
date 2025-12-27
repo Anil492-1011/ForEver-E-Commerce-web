@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../Context/AppContext";
 import Footer from "../Component/Footer";
 import RelatedProduct from "../Component/RelatedProduct";
+ 
 
 const Product = () => {
   const { ProductId } = useParams();
-  const { products } = useContext(AppContext);
+  const { products, addToCart } = useContext(AppContext);
 
   const [productData, setProductData] = useState(null);
   const [image, setImage] = useState("");
@@ -111,7 +112,7 @@ const Product = () => {
             </div>
 
             {/* ADD TO CART */}
-            <button   className="w-full sm:w-auto bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition font-medium">
+            <button onClick={()=>addToCart(productData._id, size)} className="w-full sm:w-auto bg-black text-white px-8 py-3 rounded-md active:scale-95 hover:bg-gray-800 transition font-medium">
               Add to Cart
             </button>
 
