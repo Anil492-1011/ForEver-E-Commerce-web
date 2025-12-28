@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useMemo } from "react";
 import { AppContext } from "../Context/AppContext";
 import ProductItem from "../Component/ProductItem";
 import { assets } from "../assets/frontend_assets/assets";
@@ -6,7 +6,6 @@ import Footer from "../Component/Footer";
 
 const Collection = () => {
   const { products , search } = useContext(AppContext);
-   const [filterData, setFilterData] = useState([]);
 
   // Accordion state (mobile)
   const [showFilter, setShowFilter] = useState(false);
@@ -23,10 +22,8 @@ const Collection = () => {
   const [bottomwear, setBottomwear] = useState(false);
   const [winterwear, setWinterwear] = useState(false);
 
-
-  function handlefilter(){
-
-      const filtered = products.filter((product) => {
+  const filterData = useMemo(() => {
+    return products.filter((product) => {
       const categorySelected = men || women || child;
       const categoryMatch = !categorySelected || (men && product.category?.toLowerCase() === "men") ||
         (women && product.category?.toLowerCase() === "women") ||
@@ -43,13 +40,6 @@ const Collection = () => {
 
       return categoryMatch && typeMatch && isSearch;
     });
-
-    setFilterData(filtered);
-
-  }
-
-  useEffect(() => {
-      handlefilter()
   }, [products, men, women, child, topwear, bottomwear, winterwear, search]);
 
   return (
