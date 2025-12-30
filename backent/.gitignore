@@ -1,0 +1,46 @@
+# Node modules (sabse important)
+node_modules/
+
+# Environment variables (secret data)
+.env
+.env.local
+.env.development
+.env.production
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build / dist files
+dist/
+build/
+
+# Coverage reports
+coverage/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor files
+.vscode/
+.idea/
+
+# Temporary files
+tmp/
+temp/
+
+# Database files (agar local DB use ho)
+*.sqlite
+*.db
+
+# PM2 logs
+pids/
+*.pid
+*.seed
+
+# Cache
+.cache/
