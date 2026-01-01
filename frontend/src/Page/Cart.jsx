@@ -1,13 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AppContext } from "../Context/AppContext";
 import { assets } from "../assets/frontend_assets/assets";
 import Footer from '../Component/Footer'
 import CartTotal from "../Component/CartTotal";
-
+import axios from "axios";
 const Cart = () => {
-  const { products, cartItems, currency, DeleteItem, DecreaseItem, IncreaseItem } = useContext(AppContext);
+  const { cartItems, currency, DeleteItem, DecreaseItem, IncreaseItem } = useContext(AppContext);
   const [cartData, setCartData] = useState([]);
-  
+  const [products, setProducts] = useState([]);
+
+  const fetchAllProducts = async () => {
+    try{
+         const response = await axios.get(`${import.meta.env.VITE_CLIENT_URL}/api/product/all`);
+          if(response.data?.success){
+            setProducts(response.data.products);
+          }
+
+    }catch(error){
+      console.log("error when fetching All products for Cart", error)
+  }
+};
+
+useMemo(()=>{
+    fetchAllProducts();
+},[])
+
   useEffect(() => {
     if (!products.length || !cartItems.length) {
       setCartData([])

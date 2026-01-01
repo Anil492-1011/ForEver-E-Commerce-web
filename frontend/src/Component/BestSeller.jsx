@@ -1,14 +1,33 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../Context/AppContext';
+import React, { useMemo } from 'react';
 import ProductItem from './ProductItem';
- 
+import axios from 'axios';
+import { useState } from 'react';
 
 const BestSeller = () => {
-  const { products } = useContext(AppContext);
 
-  const bestSellers = products?.filter((product) => product.bestseller === true).slice(0, 5);
 
-  console.log("Best Sellers:", bestSellers); // Debugging line
+  const [bestSellers, setBestSellers] = useState([]);
+ 
+  const fetchBestSellers = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_CLIENT_URL}/api/product/list`);
+      if (response.data?.success) {
+        const allProducts = response.data.products;
+        const bestSellerProducts = allProducts.filter((product) => product.bestseller === true).slice(0, 5);
+        setBestSellers(bestSellerProducts);
+      }
+    }
+    catch (error){
+      console.error("error when fetch Best Seller Product", error);
+
+    }
+  };
+  useMemo(() => {
+    fetchBestSellers();
+  }, []); 
+
+
+ 
   return (
     <div className='my-12 px-4 md:px-8 lg:px-16'>
       <h2 className='prata-regular text-3xl text-center my-8'>

@@ -1,13 +1,35 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { AppContext } from '../Context/AppContext';
+import React, { useEffect, useMemo, useState } from 'react'
+import axios from 'axios';
 import ProductItem from './ProductItem';
 
+
 const LatestProduct = () => {
-    const {products}= useContext(AppContext);
-    const [latestProduct, setLatestProduct]= useState([]);
     
-    useEffect(() => {
-       setLatestProduct(products.slice(0,10));
+    const [latestProduct, setLatestProduct]= useState([]);
+    const [limit, setLimit]= useState(10);
+
+
+
+    const fetchLatestProduct = async ()=>{
+        console.log("${import.meta.env.URL",import.meta.env.URL);
+
+        try{
+            const response =await axios.get(`${import.meta.env.VITE_CLIENT_URL}/api/product/list?limit=${limit}`)
+             console.log( "latest product response", response);
+            if(response.data?.success){
+                const Data =response.data.products
+                setLatestProduct(Data);
+            }
+
+        }catch(error){
+            console.error("error when fetch latest Product", error);
+
+        }
+    }
+    
+    useMemo(() => {
+        fetchLatestProduct();
+      
     },[]);
   return (
     <div className='my-12 px-4 md:px-8 lg:px-16'>

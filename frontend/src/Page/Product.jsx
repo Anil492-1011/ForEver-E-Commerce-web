@@ -1,25 +1,34 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../Context/AppContext";
 import Footer from "../Component/Footer";
 import RelatedProduct from "../Component/RelatedProduct";
- 
+import axios from "axios";  
 
 const Product = () => {
   const { ProductId } = useParams();
-  const { products, addToCart } = useContext(AppContext);
+  const {addToCart } = useContext(AppContext);
+ 
 
   const [productData, setProductData] = useState(null);
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
 
-  useEffect(() => {
-    const product = products.find((item) => item._id === ProductId);
-    if (product) {
-      setProductData(product);
-      setImage(product.image[0]);
-    }
-  }, [ProductId, products]);
+ const fetchCartData = async () => {
+     try{
+        const response = await axios.get(`${import.meta.env.VITE_CLIENT_URL}/api/product/single/${ProductId}`);
+        if(response.data?.success){
+          setProductData(response.data.product);
+          setImage(response.data.product.image[0]);
+        }
+     }catch(error){
+        console.log("error when fetching single product data", error);
+ } 
+}
+
+  useMemo(() => {
+    fetchCartData();
+  }, []);
 
   if (!productData) return <div className="opacity-0"></div>;
 
