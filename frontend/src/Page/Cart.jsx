@@ -46,14 +46,14 @@ useMemo(()=>{
 
   }, [products, cartItems]);
 
-console.log(cartData);
+ 
 
   const getPriceCount = () => {
   return cartData.reduce(
     (total, item) =>
       total + Number(item.price) * item.quantity, 0);
 };
- console.log(getPriceCount());
+ 
 
   return (
     <div className="border-t pt-14 px-4 sm:px-8 lg:px-16">
@@ -80,7 +80,7 @@ console.log(cartData);
               />
 
               <div>
-                <p className="text-sm sm:text-lg font-medium">{item.name}</p>
+                <p className="Outfit text-sm sm:text-lg font-medium">{item.name}</p>
 
                 <div className="flex items-center gap-4 mt-2">
                   <p className="text-sm">
@@ -118,7 +118,7 @@ console.log(cartData);
         ))}
       </div>
 
-     <CartTotal total={getPriceCount()} currency={currency} />
+     <CartTotal total={getPriceCount()} cartData={cartData} currency={currency} />
       <Footer />
     </div>
   );

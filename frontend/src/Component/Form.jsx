@@ -1,17 +1,8 @@
-import React, { useState } from "react";
 
-const Form = () => {
-  const [formData , setFormData] = useState({ 
-    Firstname: "",
-    Lastname: "",
-    Email: "",
-    Street:"",
-    City:"",
-    Zipcode:"",
-    State:"",
-    Country:"",
-    Phone: ""
-  })
+
+const Form = ({formData, setFormData}) => {
+  
+
 
   function onChangeHandler(event){
      console.log(event);
