@@ -1,27 +1,75 @@
-import React, { useState } from 'react'
+import React, {  useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const Login = () => {
    const [currentState, setCurrentState] = useState("Sign Up");
    const [formdata, setFormData] = useState({Name: '', Email:'', Password:''});
-   const navigate =useNavigate();
  
-  function changeHandler(event) {
-   console.log(event)
+   const navigate =useNavigate();
+
+  // ================= Signup API =================
+  const signupUser = async () => {
+   
+    const response = await axios.post(
+      `${import.meta.env.VITE_CLIENT_URL}/api/auth/signup`,
+      {
+        name: formdata.Name,
+        email: formdata.Email,
+        password: formdata.Password,
+      }
+    );
+    return response;
+
+  };
+ 
+  // ================= Login API =================
+  const loginUser = async () => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_CLIENT_URL}/api/auth/login`,
+      {
+        email: formdata.Email,
+        password: formdata.Password,
+      }
+    );
+    return response;
+  };
+
+  // ================= Input Change =================
+  const changeHandler = (event) => {
     setFormData((prev) => ({
       ...prev,
       [event.target.name]: event.target.value,
     }));
-  }
-  
-  function onSubmitHandler(event){
-     event.preventDefault();
-    console.log(formdata);
-    toast.success("Successfully LoggedIn")
-    navigate('/')
-  }
+  };
 
+  // ================= Form Submit =================
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+
+    try {
+      let response;
+
+      if (currentState === "Sign Up") {
+        
+        response = await signupUser();
+        toast.success("Signup successful");
+      } else {
+   
+        response = await loginUser();
+        toast.success("Login successful");
+      }
+
+      console.log("API Response:", response.data);
+        
+      navigate("/");
+
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+      console.error(error, "API Error");
+    }
+  };
 
   return (
    <form  onSubmit={onSubmitHandler} className='flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800' >

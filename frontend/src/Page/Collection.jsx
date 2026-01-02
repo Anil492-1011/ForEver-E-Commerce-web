@@ -3,10 +3,11 @@ import { AppContext } from "../Context/AppContext";
 import ProductItem from "../Component/ProductItem";
 import { assets } from "../assets/frontend_assets/assets";
 import Footer from "../Component/Footer";
+import axios from "axios";
 
 const Collection = () => {
-  const { products , search } = useContext(AppContext);
-
+  const {search} = useContext(AppContext);
+  const [products, setProducts] = useState([]);
   // Accordion state (mobile)
   const [showFilter, setShowFilter] = useState(false);
   const [showCategory, setShowCategory] = useState(false);
@@ -22,7 +23,22 @@ const Collection = () => {
   const [bottomwear, setBottomwear] = useState(false);
   const [winterwear, setWinterwear] = useState(false);
 
+   const fetchAllProducts = async () => {
+    try{
+      const response = await axios.get(`${import.meta.env.VITE_CLIENT_URL}/api/product/all`);
+      if(response.data?.success){
+        setProducts(response.data.products);
+      }
+    }catch(error){
+      console.log("error when fetching All products for Collection", error)
+    }
+  }
+  useMemo(() => {
+    fetchAllProducts();
+  }, []);
+
   const filterData = useMemo(() => {
+        
     return products.filter((product) => {
       const categorySelected = men || women || child;
       const categoryMatch = !categorySelected || (men && product.category?.toLowerCase() === "men") ||

@@ -7,7 +7,7 @@ import { AppContext } from "../Context/AppContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const {setShowSearchBar, getCartCount }=useContext(AppContext)
+  const {setShowSearchBar, getCartCount,  logout}=useContext(AppContext)
 
 
   return (
@@ -47,7 +47,7 @@ const Navbar = () => {
             <div className="flex flex-col gap-2 w-36 py-3 px-4 bg-slate-100 text-gray-500 rounded">
               <p className="cursor-pointer hover:text-black">My Profile</p>
            <Link to="/Order"><p  className="cursor-pointer hover:text-black">Order</p></Link> 
-              <p className="cursor-pointer hover:text-black">Logout</p>
+             <p className="cursor-pointer hover:text-black" onClick={logout}>Logout</p> 
             </div>
           </div>
         </div>

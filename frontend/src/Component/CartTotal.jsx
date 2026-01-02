@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const CartTotal = ({ total, currency }) => {
+const CartTotal = ({ total, currency , cartData}) => {
+ 
   const shippingFee = 10;
 
   return (
-    <div className="flex justify-center lg:justify-end my-10 lg:my-20 px-4">
+    <div className="flex justify-center lg:justify-end my-6 lg:my-20 px-4">
       <div className="w-full max-w-md bg-white   p-6 sm:p-8">
         {/* Heading */}
         <div className=" mb-6">
@@ -17,35 +18,33 @@ const CartTotal = ({ total, currency }) => {
         </div>
 
         {/* Subtotal */}
-        <div className="flex justify-between text-sm sm:text-base text-gray-600 mb-3">
+        <div className="flex flex-col gap-2 mt-2 text-sm">
+        <div className="flex justify-between">
           <p>Subtotal</p>
           <p>
             {currency}
             {total}
           </p>
         </div>
-        <hr className="my-3" />
+        <hr />
 
         {/* Shipping */}
-        <div className="flex justify-between text-sm sm:text-base text-gray-600 mb-3">
+        <div className="flex justify-between">
           <p>Shipping Fee</p>
 
           <p> {currency}10.00</p>
         </div>
-        <hr className="my-3" />
+        <hr />
 
         {/* Total */}
-        <div className="flex justify-between text-base sm:text-lg font-semibold text-gray-800">
+        <div className="flex justify-between">
           <p>Total</p>
           <p>{(total + shippingFee).toFixed(2)}</p>
         </div>
-
-        <div className="mt-8">
-         <Link state={total} to="/Place-order"> <button
-            className="w-60 bg-black text-white py-3 sm:py-3 
-               text-sm sm:text-base font-semibold uppercase
-                 tracking-wide
-               hover:bg-gray-900 transition duration-300
+      </div>
+        <div className=" w-full text-end">
+         <Link state={{total, cartData}} to="/Place-order"> <button
+            className="bg-black text-white text-sm my-8 px-8 py-3
                active:scale-95"
           >
             Proceed to Checkout

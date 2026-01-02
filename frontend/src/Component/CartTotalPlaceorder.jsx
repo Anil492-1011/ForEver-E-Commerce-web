@@ -38,7 +38,7 @@ const CartTotalPlaceorder = ({ total }) => {
         {/* Total */}
         <div className="flex justify-between text-base sm:text-lg font-semibold text-gray-800">
           <p>Total</p>
-          <p>{(total + shippingFee).toFixed(2)}</p>
+          <p>{(total + shippingFee)}</p>
         </div>
 
       

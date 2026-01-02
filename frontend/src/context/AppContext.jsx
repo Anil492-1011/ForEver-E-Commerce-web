@@ -1,13 +1,17 @@
 import { createContext, useState } from "react";
 import { products } from "../assets/frontend_assets/assets";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { toast } from "react-toastify";
+
 
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
   const currency = "₹";
   const delivery_Fee = 50;
-
+  
+const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [cartItems, setcartItems] = useState([]);
@@ -34,7 +38,6 @@ export const AppContextProvider = ({ children }) => {
     });
   };
 
-
   const getCartCount = () => {
     let CartCount = 0;
     for (const item of cartItems) {
@@ -55,21 +58,18 @@ export const AppContextProvider = ({ children }) => {
   };
 
   const DecreaseItem = (id, size) => {
-  setcartItems((prev) => {
+    setcartItems((prev) => {
       const Arr = prev.map((item) => {
-        console.log(item.cnt)
+        console.log(item.cnt);
         if (item.id === id && item.size === size && item.cnt > 0) {
-
-          return { id: item.id, size: item.size, cnt: item.cnt-1 };
+          return { id: item.id, size: item.size, cnt: item.cnt - 1 };
         }
         return { id: item.id, size: item.size, cnt: item.cnt };
       });
       return Arr;
     });
-
   };
   const DeleteItem = (id, size) => {
-
     setcartItems((prev) => {
       const Arr = prev.filter((item) => {
         if (item.id === id && item.size === size) {
@@ -79,6 +79,23 @@ export const AppContextProvider = ({ children }) => {
       });
       return Arr;
     });
+  };
+
+  const logout = async () => {
+    try {
+      const response = await axios.post(
+         `${import.meta.env.URL}/api/auth/logout`,
+        {},
+        { withCredentials: true } // 👈 agar cookie-based auth hai
+      );
+      navigate("/");
+      toast.success("Logout successful");
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Logout error:", error.response?.data || error.message);
+      throw error;
+    }
   };
 
   const value = {
@@ -96,7 +113,7 @@ export const AppContextProvider = ({ children }) => {
     DeleteItem,
     DecreaseItem,
     IncreaseItem,
- 
+    logout,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

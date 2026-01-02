@@ -1,11 +1,10 @@
- // User routes
-const express = require('express');
-const router =express.Router();
-// Import User Controller
- 
+import express from 'express';
+const router = express.Router();
+import { Signup, Login, Logout } from '../Controller/authController.js';    
 
 
-// Register route
- 
+router.post('/signup', Signup);
+router.post('/login', Login);   
+router.post('/logout', Logout);
 
-module.exports = router;
+export default router;

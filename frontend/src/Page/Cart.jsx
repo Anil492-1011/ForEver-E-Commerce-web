@@ -1,13 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AppContext } from "../Context/AppContext";
 import { assets } from "../assets/frontend_assets/assets";
 import Footer from '../Component/Footer'
 import CartTotal from "../Component/CartTotal";
-
+import axios from "axios";
 const Cart = () => {
-  const { products, cartItems, currency, DeleteItem, DecreaseItem, IncreaseItem } = useContext(AppContext);
+  const { cartItems, currency, DeleteItem, DecreaseItem, IncreaseItem } = useContext(AppContext);
   const [cartData, setCartData] = useState([]);
-  
+  const [products, setProducts] = useState([]);
+
+  const fetchAllProducts = async () => {
+    try{
+         const response = await axios.get(`${import.meta.env.VITE_CLIENT_URL}/api/product/all`);
+          if(response.data?.success){
+            setProducts(response.data.products);
+          }
+
+    }catch(error){
+      console.log("error when fetching All products for Cart", error)
+  }
+};
+
+useMemo(()=>{
+    fetchAllProducts();
+},[])
+
   useEffect(() => {
     if (!products.length || !cartItems.length) {
       setCartData([])
@@ -29,14 +46,14 @@ const Cart = () => {
 
   }, [products, cartItems]);
 
-console.log(cartData);
+ 
 
   const getPriceCount = () => {
   return cartData.reduce(
     (total, item) =>
       total + Number(item.price) * item.quantity, 0);
 };
- console.log(getPriceCount());
+ 
 
   return (
     <div className="border-t pt-14 px-4 sm:px-8 lg:px-16">
@@ -63,7 +80,7 @@ console.log(cartData);
               />
 
               <div>
-                <p className="text-sm sm:text-lg font-medium">{item.name}</p>
+                <p className="Outfit text-sm sm:text-lg font-medium">{item.name}</p>
 
                 <div className="flex items-center gap-4 mt-2">
                   <p className="text-sm">
@@ -101,7 +118,7 @@ console.log(cartData);
         ))}
       </div>
 
-     <CartTotal total={getPriceCount()} currency={currency} />
+     <CartTotal total={getPriceCount()} cartData={cartData} currency={currency} />
       <Footer />
     </div>
   );
