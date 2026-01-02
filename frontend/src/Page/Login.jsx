@@ -1,15 +1,17 @@
-import React, {  useState } from 'react'
+import React, {  useState , useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../Context/AppContext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const Login = () => {
+  const {setLoggedInUser} = useContext(AppContext);
    const [currentState, setCurrentState] = useState("Sign Up");
    const [formdata, setFormData] = useState({Name: '', Email:'', Password:''});
  
    const navigate =useNavigate();
 
-  // ================= Signup API =================
+  //   Signup API  
   const signupUser = async () => {
    
     const response = await axios.post(
@@ -24,7 +26,7 @@ const Login = () => {
 
   };
  
-  // ================= Login API =================
+  //  Login API  
   const loginUser = async () => {
     const response = await axios.post(
       `${import.meta.env.VITE_CLIENT_URL}/api/auth/login`,
@@ -36,7 +38,7 @@ const Login = () => {
     return response;
   };
 
-  // ================= Input Change =================
+  //   Input Change 
   const changeHandler = (event) => {
     setFormData((prev) => ({
       ...prev,
@@ -44,7 +46,7 @@ const Login = () => {
     }));
   };
 
-  // ================= Form Submit =================
+  //   Form Submit  
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
@@ -54,11 +56,19 @@ const Login = () => {
       if (currentState === "Sign Up") {
         
         response = await signupUser();
-        toast.success("Signup successful");
+        if(response.data?.success){
+          setLoggedInUser(response.data.UserData);
+          localStorage.setItem("loginData", response.data.UserData?JSON.stringify(response.data.UserData):'');
+          toast.success("Signup successful");
+        } 
       } else {
    
         response = await loginUser();
-        toast.success("Login successful");
+         if(response.data?.success){
+         setLoggedInUser(response.data.UserData);
+          localStorage.setItem("loginData", response.data.UserData?JSON.stringify(response.data.UserData):'');
+          toast.success("login successful");
+         }
       }
 
       console.log("API Response:", response.data);

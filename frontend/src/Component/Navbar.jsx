@@ -7,7 +7,7 @@ import { AppContext } from "../Context/AppContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const {setShowSearchBar, getCartCount,  logout}=useContext(AppContext)
+  const {setShowSearchBar, getCartCount, loggegInUser, logout}=useContext(AppContext)
 
 
   return (
@@ -37,19 +37,30 @@ const Navbar = () => {
 </NavLink>
   
         <div className="group relative">
-          <NavLink to="/login" ><img
+          {loggegInUser?
+          <img
             className="w-5 cursor-pointer"
              src={assets.profile_icon}
             alt=""
-          /></NavLink>
+          />
+          : <NavLink to="/login" ><img
+            className="w-5 cursor-pointer"
+             src={assets.profile_icon}
+            alt=""
+          /></NavLink>}
+         
           
-          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-10">
-            <div className="flex flex-col gap-2 w-36 py-3 px-4 bg-slate-100 text-gray-500 rounded">
-              <p className="cursor-pointer hover:text-black">My Profile</p>
-           <Link to="/Order"><p  className="cursor-pointer hover:text-black">Order</p></Link> 
-             <p className="cursor-pointer hover:text-black" onClick={logout}>Logout</p> 
+          {loggegInUser && (
+            <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-10">
+              <div className="flex flex-col gap-2 w-36 py-3 px-4 bg-slate-100 text-gray-500 rounded">
+                <Link to="/Profile"><p className="cursor-pointer hover:text-black">{loggegInUser?.name}</p></Link>
+                <Link to="/Order"><p  className="cursor-pointer hover:text-black">Order</p></Link>
+                <Link><p className="cursor-pointer hover:text-black" onClick={logout}>Logout</p></Link> 
+              </div>
             </div>
-          </div>
+          )}
+
+
         </div>
         <Link to="/Cart" className="relative">
           <img src={assets.cart_icon} alt="Cart" className="w-5 min-w-4" />
