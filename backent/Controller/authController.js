@@ -14,7 +14,7 @@ const formatUser = (user) => ({
   id: user._id,
   name: user.name,
   email: user.email,
-   
+  token: user.token, 
 });
 
 
@@ -65,7 +65,7 @@ const Signup = async (req, res) => {
         res.status(201).json({
             message: "User registered successfully",
             success: true,
-            user: formatUser(user),
+            UserData: formatUser(user),
             token: token
         });
 
@@ -106,13 +106,17 @@ const Login = async (req, res) => {
         const token =  jwt.sign(payload, process.env.JWT_SECRET, {
              expiresIn: process.env.JWT_EXPIRES_IN || '1h'});
 
+        const resUser = existingUser.toObject();
+
+        resUser.token = token;
+
 
         res.cookie('token', token, buildCookieOptions());
 
         res.status(201).json({
             message: "User successfully Logged In",
             success: true,
-            user: formatUser(existingUser)
+            UserData: formatUser(resUser)
         });
 
 

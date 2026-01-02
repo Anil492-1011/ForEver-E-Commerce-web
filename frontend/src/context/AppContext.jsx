@@ -15,6 +15,8 @@ const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [cartItems, setcartItems] = useState([]);
+  const loggedInUserLocal= JSON.parse(localStorage.getItem("loginData")?localStorage.getItem("loginData"):null);
+  const [loggegInUser, setLoggedInUser] = useState(loggedInUserLocal ? loggedInUserLocal : null );
 
   const addToCart = async (itemID, size) => {
     if (!size) {
@@ -84,10 +86,12 @@ const navigate = useNavigate();
   const logout = async () => {
     try {
       const response = await axios.post(
-         `${import.meta.env.URL}/api/auth/logout`,
+         `${import.meta.env.VITE_CLIENT_URL}/api/auth/logout`,
         {},
         { withCredentials: true } // 👈 agar cookie-based auth hai
       );
+      setLoggedInUser(null);
+      localStorage.removeItem("loginData");
       navigate("/");
       toast.success("Logout successful");
       console.log(response.data);
@@ -114,6 +118,8 @@ const navigate = useNavigate();
     DecreaseItem,
     IncreaseItem,
     logout,
+    loggegInUser,
+    setLoggedInUser,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
