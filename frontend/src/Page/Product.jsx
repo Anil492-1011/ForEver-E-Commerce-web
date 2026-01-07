@@ -1,6 +1,6 @@
 import { useContext, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { AppContext } from "../Context/AppContext";
+import { AppContext } from "../context/AppContext";
 import Footer from "../Component/Footer";
 import RelatedProduct from "../Component/RelatedProduct";
 import axios from "axios";  

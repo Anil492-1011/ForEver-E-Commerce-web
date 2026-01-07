@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState , useEffect} from "react";
 import { products } from "../assets/frontend_assets/assets";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -11,13 +11,24 @@ export const AppContextProvider = ({ children }) => {
   const currency = "₹";
   const delivery_Fee = 50;
   
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const [cartItems, setcartItems] = useState([]);
+  const [showNavbar, setShowNavbar] = useState(false);
+  
+
+    const [cartItems, setcartItems] = useState(() => {
+    const savedCart = localStorage.getItem("cartItems");
+    return savedCart ? JSON.parse(savedCart) : [];
+
+  });
+ useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
+
   const loggedInUserLocal= JSON.parse(localStorage.getItem("loginData")?localStorage.getItem("loginData"):null);
   const [loggegInUser, setLoggedInUser] = useState(loggedInUserLocal ? loggedInUserLocal : null );
-
+  
   const addToCart = async (itemID, size) => {
     if (!size) {
       return toast.error("Select Product Size");
@@ -120,6 +131,9 @@ const navigate = useNavigate();
     logout,
     loggegInUser,
     setLoggedInUser,
+    showNavbar,
+    setShowNavbar,
+
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

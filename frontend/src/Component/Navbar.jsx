@@ -7,7 +7,7 @@ import { AppContext } from "../Context/AppContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const {setShowSearchBar, getCartCount, loggegInUser, logout}=useContext(AppContext)
+  const {setShowSearchBar, getCartCount, loggegInUser, logout, setShowNavbar}=useContext(AppContext)
 
 
   return (
@@ -33,7 +33,7 @@ const Navbar = () => {
         </NavLink>
       </ul>
       <div className="flex items-center gap-6">
-     <NavLink to='/collection'><img src={assets.search_icon} alt="" className="w-5 cursor-pointer"  onClick={()=>(setShowSearchBar(true))}/> 
+     <NavLink to='/collection'><img src={assets.search_icon} alt="" className="w-5 cursor-pointer" /> 
 </NavLink>
   
         <div className="group relative">
@@ -53,7 +53,8 @@ const Navbar = () => {
           {loggegInUser && (
             <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-10">
               <div className="flex flex-col gap-2 w-36 py-3 px-4 bg-slate-100 text-gray-500 rounded">
-                <Link to="/Profile"><p className="cursor-pointer hover:text-black">{loggegInUser?.name}</p></Link>
+                <Link to="/Profile"><p className="cursor-pointer hover:text-black">My Profile</p></Link>
+               { loggegInUser?.role === 'admin' && <Link to="/admin"><p  onClick={()=>(setShowNavbar(true))} className="cursor-pointer hover:text-black">Deshboard</p></Link>}
                 <Link to="/Order"><p  className="cursor-pointer hover:text-black">Order</p></Link>
                 <Link><p className="cursor-pointer hover:text-black" onClick={logout}>Logout</p></Link> 
               </div>

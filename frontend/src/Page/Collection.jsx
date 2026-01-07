@@ -1,5 +1,5 @@
 import { useContext, useState, useMemo } from "react";
-import { AppContext } from "../Context/AppContext";
+import { AppContext } from "../context/AppContext";
 import ProductItem from "../Component/ProductItem";
 import { assets } from "../assets/frontend_assets/assets";
 import Footer from "../Component/Footer";
