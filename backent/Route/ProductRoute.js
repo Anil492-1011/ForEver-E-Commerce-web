@@ -1,13 +1,10 @@
 import express from 'express';
 import { addProduct, listProducts, removeProduct, singleProduct ,getAllProducts } from '../Controller/ProductController.js';
 import upload from '../Middleware/multer.js';
+import {authenticate, isAdmin} from "../Middleware/auth.js"
 const router = express.Router();
 
-router.post('/add',
-  upload.fields([
-    { name: "images", maxCount: 4 },]),
-   addProduct
-);
+router.post('/add',authenticate, isAdmin, upload.fields([{ name: "images", maxCount: 4 },]),  addProduct);
 
 router.get('/all', getAllProducts);
 router.get('/list', listProducts);

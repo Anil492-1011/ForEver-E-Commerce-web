@@ -7,6 +7,7 @@ import PaymentMethod from "../Component/PaymentMethod";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const PlaceOrder = () => {
   const location = useLocation();
   const total = location.state.total || 0; // fallback safety

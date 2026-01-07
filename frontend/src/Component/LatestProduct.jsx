@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import axios from 'axios';
 import ProductItem from './ProductItem';
 
@@ -27,7 +27,7 @@ const LatestProduct = () => {
         }
     }
     
-    useMemo(() => {
+    useEffect(() => {
         fetchLatestProduct();
       
     },[]);

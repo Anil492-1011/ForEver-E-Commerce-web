@@ -1,11 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
- 
+
 import Connect from "./Config/db.js";
 import auth from "./Route/UserRoute.js";
 import ProductRoute from "./Route/ProductRoute.js";
-
 
 
 dotenv.config();
@@ -34,6 +33,8 @@ app.get("/api", (req, res) => {
 // Routes
 app.use("/api/auth", auth);
 app.use("/api/product", ProductRoute);
+ 
+
 
 // Start server
 app.listen(PORT, () => {

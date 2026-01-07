@@ -13,7 +13,15 @@ const addProduct = async (req, res) => {
       date,
       bestseller,
     } = req.body; 
-    
+     
+    console.log(  name,
+      description,
+      price,
+      category,
+      subCategory,
+      sizes,
+      date,
+      bestseller,)
     
     // ✅ validation
     if (!name || !description || !price || !category || !subCategory || !sizes) {
@@ -40,7 +48,8 @@ const addProduct = async (req, res) => {
         return result.secure_url;
       })
     );
-
+    console.log(imageUrl)
+  
    
     const newProduct = await Product.create({
       name,

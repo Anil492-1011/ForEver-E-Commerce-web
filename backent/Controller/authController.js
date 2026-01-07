@@ -14,6 +14,7 @@ const formatUser = (user) => ({
   id: user._id,
   name: user.name,
   email: user.email,
+  role: user.role,
   token: user.token, 
 });
 
@@ -54,18 +55,20 @@ const Signup = async (req, res) => {
             password: hashedPassword,
         })
 
-        const payload = {id: user._id, email: user.email };
+        const payload = {id: user._id, email: user.email , role: user.role};
 
         const token =  jwt.sign(payload, process.env.JWT_SECRET, {
-             expiresIn: process.env.JWT_EXPIRES_IN || '1h'});
-
+            expiresIn: process.env.JWT_EXPIRES_IN || '1h'});
+           
+          const resUser = user.toObject();
+          resUser.token = token;
 
         res.cookie('token', token, buildCookieOptions());
 
         res.status(201).json({
             message: "User registered successfully",
             success: true,
-            UserData: formatUser(user),
+            UserData: formatUser(resUser),
             token: token
         });
 
@@ -101,7 +104,7 @@ const Login = async (req, res) => {
             })
         }
 
-        const payload = {id: existingUser._id, email: existingUser.email};
+        const payload = {id: existingUser._id, email: existingUser.email, role: existingUser.role};
  
         const token =  jwt.sign(payload, process.env.JWT_SECRET, {
              expiresIn: process.env.JWT_EXPIRES_IN || '1h'});
@@ -146,35 +149,7 @@ const Logout = async (req, res)=>{
        
 }
 
-const adminLogin = async (req, res) => {
-    try{
-        const {email, password} = req.body;
-        const adminEmail = process.env.ADMIN_EMAIL;
-        const adminPassword = process.env.ADMIN_PASSWORD;
-        if(email !== adminEmail || password !== adminPassword){
-            return res.status(401).json({
-                message: "Invalid admin credentials",
-                success: false
-            });
-        }
-        const payload = {email: adminEmail, role: 'admin'};
 
-        const token =  jwt.sign(payload, process.env.JWT_SECRET, {
-             expiresIn: process.env.JWT_EXPIRES_IN || '1h'});
-        res.cookie('token', token, buildCookieOptions());
+ 
 
-        res.status(200).json({
-            message: "Admin successfully logged in",
-            success: true,
-            token: token
-        });
-    }catch(error){
-        console.error("Error during admin Login:", error);
-        res.status(500).json({
-            message: "Internal server error",
-            success: false
-        }) 
-    }
-}
-
-export { Signup, Login, Logout, adminLogin };
+export { Signup, Login, Logout };
