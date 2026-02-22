@@ -26,10 +26,11 @@ function App() {
     <div>
 
       {!isAdminRoute && <Navbar />}
+
       {!isAdminRoute && <SearchBar />}
       
         <Routes>
-        {/* USER ROUTES */}
+         
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />

@@ -26,12 +26,12 @@ const corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 
-// Test route
+ 
 app.get("/api", (req, res) => {
   res.send("Welcome to the Auth Authen API");
 });
 
-// Routes
+// Routes 
 app.use("/api/auth", auth);
 app.use("/api/product", ProductRoute);
 app.use("/api/order", OrderRoute)
