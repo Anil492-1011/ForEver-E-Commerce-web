@@ -1,11 +1,6 @@
 import Order from "../Model/OrderSchemaModel.js";
 
-// const Myorder= async (res, req)=>{
-
-    
-// }
-
-const getAllOrders = async (res, req)=>{
+const getAllOrders = async (req, res)=>{
    try {
     console.log("Fetching All order Products...");
     const getAll = await Order.find();
@@ -25,37 +20,53 @@ const getAllOrders = async (res, req)=>{
 
 }
 
-const createProduct = async (req, res)=>{
-   try{
-       
-   
-    const {items, amount, address, status, payment , paymentMethod, date} = req.body;
-     console.log(items, amount, address, status, payment , paymentMethod, date);
+const addOrder = async (req, res) => {
+  try {
+    const {
+      cartData,
+      total,
+      deliveryInfo,
+      paymentMethod
+    } = req.body;
 
-    if(!items || !amount || !address || !payment || !paymentMethod || !data){
-        return res.status(400).json({
-            success: false,
-            message: 'required All fields'
-        })
-    }
-    
-    const NewOrder = await Order.create({
-          items, amount, address, status, payment , paymentMethod, date
-    })
-
-   return res.status(200).json({
-        success: true,
-        message: "NewOder Created Successfully",
-        data:NewOrder
-    })
-}catch(error){
-    console.error("error when creating a New Order",error);
-    return res.status(500).json({
+    // ✅ Validation
+    if (
+      !cartData ||
+      cartData.length === 0 ||
+      !total ||
+      !deliveryInfo ||
+      !paymentMethod
+    ) {
+      return res.status(400).json({
         success: false,
-        message: "issue when creating a New Order"
-    })
+        message: "All fields are required"
+      });
+    }
 
-}
-}
+    const newOrder = await Order.create({
+      items: cartData,
+      amount: total,
+      address: deliveryInfo,
+      paymentMethod,
+      payment: false, // default (COD / pending)
+      status: "Pending",
+      date: new Date()
+    });
 
-export { createOrder, createProduct}
+    return res.status(201).json({
+      success: true,
+      message: "Order created successfully",
+      data: newOrder
+    });
+
+  } catch (error) {
+    console.error("Error creating order:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error while creating order"
+    });
+  }
+};
+
+
+export {addOrder , getAllOrders}

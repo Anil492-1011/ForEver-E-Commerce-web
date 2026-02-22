@@ -17,6 +17,9 @@ const List = () => {
     }
   };
 
+
+  
+
  const RemoveProduct = async (productId) => {
   try {
     const loginData = JSON.parse(localStorage.getItem("loginData"));

@@ -1,63 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import Heading from "../Component/Heading";
 import Form from "../Component/Form";
-import { useLocation } from "react-router-dom";
 import CartTotalPlaceorder from "../Component/CartTotalPlaceorder";
 import PaymentMethod from "../Component/PaymentMethod";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const PlaceOrder = () => {
   const location = useLocation();
-  const total = location.state.total || 0; // fallback safety
-  const cartData = location.state.cartData || [];
   const navigate = useNavigate();
 
-  const [deliveryInfo, setDeliveryInfo] =useState({
+  const total = location.state?.total || 0;
+  const cartData = location.state?.cartData || [];
+
+  const [deliveryInfo, setDeliveryInfo] = useState({
     Firstname: "",
     Lastname: "",
     Email: "",
-    Street:"",
-    City:"",
-    Zipcode:"",
-    State:"",
-    Country:"",
-    Phone: ""})
+    Street: "",
+    City: "",
+    Zipcode: "",
+    State: "",
+    Country: "",
+    Phone: "",
+  });
 
-   const [paymentMethod, setPaymentMethod] = React.useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
 
-const PlaceOrder =()=>{
-    if(!deliveryInfo.Firstname || !deliveryInfo.Lastname || !deliveryInfo.Email || !deliveryInfo.Street || !deliveryInfo.City ||
-      !deliveryInfo.Zipcode || !deliveryInfo.State || !deliveryInfo.Country || !deliveryInfo.Phone){
-            alert("Every Field is Required")
-            return;
+  
+  const handlePlaceOrder = async () => {
+    // Validation
+    for (let key in deliveryInfo) {
+      if (!deliveryInfo[key]) {
+        alert("Every field is required");
+        return;
+      }
     }
-    if(paymentMethod===""){
-      alert("Please select a Payment Method")
+
+    if (!paymentMethod) {
+      alert("Please select a payment method");
       return;
     }
 
-    navigate("/Order", {state:{cartData, paymentMethod, deliveryInfo}});
-}
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_CLIENT_URL}/api/order/addorder`,
+        {
+          cartData,
+          deliveryInfo,
+          paymentMethod,
+          total,
+        }
+      );
 
+      if (response.data.success) {
+        toast.success("Order placed successfully");
+        navigate("/order");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    }
+  };
 
   return (
     <div className="px-4 sm:px-8 lg:px-16">
-      {/* Heading */}
       <Heading text1="DELIVERY" text2="INFORMATION" />
 
-      {/* Content */}
       <div className="flex flex-col lg:flex-row gap-4 mt-10">
-        {/* Form */}
-        <div className="">
-          <Form formData={deliveryInfo} setFormData={setDeliveryInfo}/>
-        </div>
+        <Form formData={deliveryInfo} setFormData={setDeliveryInfo} />
 
-        {/* Cart Total + Payment */}
         <div className="w-full lg:w-[650px]">
           <CartTotalPlaceorder total={total} />
-          <PaymentMethod PlaceOrder={PlaceOrder} paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} />
+          <PaymentMethod
+            PlaceOrder={handlePlaceOrder}
+            paymentMethod={paymentMethod}
+            setPaymentMethod={setPaymentMethod}
+          />
         </div>
       </div>
     </div>

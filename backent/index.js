@@ -5,7 +5,8 @@ import cors from "cors";
 import Connect from "./Config/db.js";
 import auth from "./Route/UserRoute.js";
 import ProductRoute from "./Route/ProductRoute.js";
-
+import OrderRoute from "./Route/OrderRoute.js"
+import ContactRoute from "./Route/ContactRoute.js";
 
 dotenv.config();
 
@@ -33,7 +34,8 @@ app.get("/api", (req, res) => {
 // Routes
 app.use("/api/auth", auth);
 app.use("/api/product", ProductRoute);
- 
+app.use("/api/order", OrderRoute)
+app.use("/api/contact", ContactRoute);
 
 
 // Start server

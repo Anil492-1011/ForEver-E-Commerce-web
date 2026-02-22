@@ -15,7 +15,7 @@ import Layout from './Page/admin/Layout'
 import Add from './Component/adminComponent/Add'
 import List from './Component/adminComponent/List'
 import AdminOrders from './Component/adminComponent/AdminOrder'
-
+import Messages from './Component/adminComponent/Messages'
 
 function App() {
 
@@ -24,9 +24,10 @@ function App() {
 
   return (
     <div>
-   
+
       {!isAdminRoute && <Navbar />}
       {!isAdminRoute && <SearchBar />}
+      
         <Routes>
         {/* USER ROUTES */}
         <Route path='/' element={<Home />} />
@@ -44,11 +45,10 @@ function App() {
           <Route path='add' element={<Add />} />
           <Route path='list' element={<List />} />
           <Route path='orders' element={<AdminOrders />} />
+          <Route path='messages' element={<Messages />} />
         </Route>
       </Routes>
-
-    </div>
-     
+    </div>    
   )
 }
 

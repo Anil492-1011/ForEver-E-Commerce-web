@@ -7,7 +7,20 @@ import { AppContext } from "../Context/AppContext";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const {setShowSearchBar, getCartCount, loggegInUser, logout, setShowNavbar}=useContext(AppContext)
+  const { getCartCount, loggegInUser, logout, setShowNavbar}=useContext(AppContext)
+  const navTabClass = ({ isActive }) =>
+    `prata-regular flex flex-col items-center gap-1 px-4 py-2 rounded-full transition-colors duration-200 ${
+      isActive
+        ? "bg-blue-600 text-white"
+        : "bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700"
+    }`;
+
+  const mobileNavTabClass = ({ isActive }) =>
+    `p-4 border-t border-gray-300 transition-colors duration-200 ${
+      isActive
+        ? "bg-blue-600 text-white"
+        : "bg-gray-100 text-gray-700 hover:bg-blue-100 hover:text-blue-700"
+    }`;
 
 
   return (
@@ -15,21 +28,17 @@ const Navbar = () => {
        <NavLink to="/" ><img src={assets.logo} alt="Logo" className=" w-36" /></NavLink>
        
       <ul className="hidden sm:flex gap-5 item-sm text-gray-700">
-        <NavLink to="/" className="prata-regular flex flex-col items-center gap-1">
+        <NavLink to="/" className={navTabClass}>
           <p>Home</p>{" "}
-          <hr className=" w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
-        <NavLink to="/about" className="prata-regular flex flex-col items-center gap-1 ">
+        <NavLink to="/about" className={navTabClass}>
           <p>About</p>{" "}
-          <hr className=" w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
-        <NavLink to="/collection" className="prata-regular flex flex-col items-center gap-1">
+        <NavLink to="/collection" className={navTabClass}>
           <p>Collection</p>{" "}
-          <hr className=" w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
-        <NavLink to="/contact" className="prata-regular flex flex-col items-center gap-1">
+        <NavLink to="/contact" className={navTabClass}>
           <p>Contact</p>{" "}
-          <hr className=" w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
       </ul>
       <div className="flex items-center gap-6">
@@ -60,6 +69,7 @@ const Navbar = () => {
               </div>
             </div>
           )}
+          
 
 
         </div>
@@ -86,10 +96,10 @@ const Navbar = () => {
               <p className="cursor-pointer">Back</p>
 
             </div>
-            <NavLink to="/" className="p-4 border-t border-gray-300" onClick={() => setVisible(false)}>  Home</NavLink>
-            <NavLink to="/about" className="p-4 border-t border-gray-300" onClick={() => setVisible(false)}> About</NavLink>
-            <NavLink to="/collection" className="p-4 border-t border-gray-300" onClick={() => setVisible(false)}> Collection</NavLink>
-            <NavLink to="/contact" className="p-4 border-t border-gray-300" onClick={() => setVisible(false)}> Contact</NavLink>
+            <NavLink to="/" className={mobileNavTabClass} onClick={() => setVisible(false)}>  Home</NavLink>
+            <NavLink to="/about" className={mobileNavTabClass} onClick={() => setVisible(false)}> About</NavLink>
+            <NavLink to="/collection" className={mobileNavTabClass} onClick={() => setVisible(false)}> Collection</NavLink>
+            <NavLink to="/contact" className={mobileNavTabClass} onClick={() => setVisible(false)}> Contact</NavLink>
           </div>
         </div>
       </div>

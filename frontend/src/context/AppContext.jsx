@@ -1,41 +1,44 @@
-import { createContext, useState , useEffect} from "react";
+import { createContext, useState, useEffect } from "react";
 import { products } from "../assets/frontend_assets/assets";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-
 
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
   const currency = "₹";
   const delivery_Fee = 50;
-  
+
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [showNavbar, setShowNavbar] = useState(false);
-  
 
-    const [cartItems, setcartItems] = useState(() => {
+  const [cartItems, setcartItems] = useState(() => {
     const savedCart = localStorage.getItem("cartItems");
     return savedCart ? JSON.parse(savedCart) : [];
-
   });
- useEffect(() => {
+  useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const loggedInUserLocal= JSON.parse(localStorage.getItem("loginData")?localStorage.getItem("loginData"):null);
-  const [loggegInUser, setLoggedInUser] = useState(loggedInUserLocal ? loggedInUserLocal : null );
-  
+  const loggedInUserLocal = JSON.parse(
+    localStorage.getItem("loginData")
+      ? localStorage.getItem("loginData")
+      : null,
+  );
+  const [loggegInUser, setLoggedInUser] = useState(
+    loggedInUserLocal ? loggedInUserLocal : null,
+  );
+
   const addToCart = async (itemID, size) => {
     if (!size) {
       return toast.error("Select Product Size");
     }
     setcartItems((prev) => {
       const itemExists = prev.find(
-        (item) => item.id === itemID && item.size === size
+        (item) => item.id === itemID && item.size === size,
       );
       if (itemExists) {
         const newArr = prev.map((item) => {
@@ -97,9 +100,9 @@ export const AppContextProvider = ({ children }) => {
   const logout = async () => {
     try {
       const response = await axios.post(
-         `${import.meta.env.VITE_CLIENT_URL}/api/auth/logout`,
+        `${import.meta.env.VITE_CLIENT_URL}/api/auth/logout`,
         {},
-        { withCredentials: true } // 👈 agar cookie-based auth hai
+        { withCredentials: true }, // 👈 agar cookie-based auth hai
       );
       setLoggedInUser(null);
       localStorage.removeItem("loginData");
@@ -133,7 +136,6 @@ export const AppContextProvider = ({ children }) => {
     setLoggedInUser,
     showNavbar,
     setShowNavbar,
-
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
